@@ -1,0 +1,22 @@
+CAPI=2:
+
+name: AD:data_flow:util_pack_common:2.0.0
+description: Analog Devices utility pack data.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_pack/util_pack_common/pack_ctrl.v
+      - hdl/library/util_pack/util_pack_common/pack_interconnect.v
+      - hdl/library/util_pack/util_pack_common/pack_network.v
+      - hdl/library/util_pack/util_pack_common/pack_shell.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_perfect_shuffle:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

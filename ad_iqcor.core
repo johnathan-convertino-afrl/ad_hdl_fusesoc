@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:common:ad_iqcor:1.0.0
+description: Analog Devices iq correction = a*(i+x) + b*(q+y); offsets are added in dcfilter.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_iqcor.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_mul:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

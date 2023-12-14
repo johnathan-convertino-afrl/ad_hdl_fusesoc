@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_mul:1.0.0
+description: Analog Devices multiplier primitive wrapper for intel/xilinx.
+
+filesets:
+  src:
+    files:
+      - "tool_quartus ? (src/intel/ad_mul.v)"  : {file_type: verilogSource}
+      - "tool_vivado  ? (hdl/library/xilinx/common/ad_mul.v)" : {file_type: verilogSource}
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

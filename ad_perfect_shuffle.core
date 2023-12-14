@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_perfect_shuffle:1.0.0
+description: Analog Devices performs the perfect shuffle operation.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_perfect_shuffle.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

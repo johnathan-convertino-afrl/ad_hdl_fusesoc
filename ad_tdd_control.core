@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:ad_tdd_control:1.0.0
+description: Analog Devices tdd control.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_tdd_control.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_addsub:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

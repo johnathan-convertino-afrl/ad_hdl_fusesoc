@@ -1,0 +1,23 @@
+CAPI=2:
+
+name: AD:sync:util_sync_event:1.0.0
+description: Analog Devices, Clock-Domain-Crossing utilities.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_cdc/sync_event.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:sync:util_sync_bits:1.0.0
+      - AD:repo:hdl:1.0.0
+
+  constr:
+    files:
+      - "tool_vivado ? (constr/util_cdc_sync_event_constr.tcl)" : { file_type: SDC }
+
+targets:
+  default:
+    filesets: [src, dep, constr]

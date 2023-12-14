@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_data_out:1.0.0
+description: Analog Devices data out primitive wrapper for intel/xilinx (intel by Jay Convertino.
+
+filesets:
+  src:
+    files:
+      - "tool_quartus ? (src/intel/ad_data_out.v)"  : {file_type: verilogSource}
+      - "tool_vivado  ? (hdl/library/xilinx/common/ad_data_out.v)" : {file_type: verilogSource}
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

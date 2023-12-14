@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_datafmt:1.0.0
+description: Analog Devices data format (offset binary or 2's complement only)
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_datafmt.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

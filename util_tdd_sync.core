@@ -1,0 +1,23 @@
+CAPI=2:
+
+name: AD:utility:tdd_sync:1.0.0
+description: Analog Devices simple pulse generator for TDD control.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_tdd_sync/util_tdd_sync.v
+    file_type: verilogSource
+  
+  constr:
+    files:
+      - "tool_vivado  ? (constr/util_tdd_sync_constr.tcl)" : { file_type: SDC }
+
+  dep:
+    depend:
+      - AD:common:util_pulse_gen:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]

@@ -1,0 +1,24 @@
+CAPI=2:
+
+name: AD:buffer:util_rfifo:1.0.0
+description: Analog Devices rfifo.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_rfifo/util_rfifo.v
+    file_type: verilogSource
+  
+  constr:
+    files:
+      - "tool_vivado  ? (constr/util_rfifo_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (constr/util_rfifo_constr.sdc)" : { file_type: sdc }
+
+  dep:
+    depend:
+      - AD:common:ad_mem:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]

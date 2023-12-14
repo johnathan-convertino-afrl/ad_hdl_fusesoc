@@ -1,0 +1,21 @@
+CAPI=2:
+
+name: AD:buffer:util_axis_fifo:1.0.0
+description: Analog Devices, simple axi streaming fifo.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_axis_fifo/util_axis_fifo.v
+      - hdl/library/util_axis_fifo/util_axis_fifo_address_generator.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:sync:util_sync_gray:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

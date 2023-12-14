@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:up_delay_cntrl:1.0.0
+description: Analog Devices delay control.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/up_delay_cntrl.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_rst:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

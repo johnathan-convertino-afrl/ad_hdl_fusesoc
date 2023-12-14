@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:common:up_tdd_cntrl:1.0.0
+description: Analog Devices tdd control.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/up_tdd_cntrl.v
+    file_type: verilogSource
+  
+  dep:
+    depend:
+      - AD:common:up_xfer_cntrl:1.0.0
+      - AD:common:up_xfer_status:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:util_pulse_gen:1.0.0
+description: Analog Devices, generate pulse with a specified width.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/util_pulse_gen.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

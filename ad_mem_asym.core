@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_mem_asym:1.0.0
+description: Analog Devices simple asymetric memory. The write and read memory space must have the same size.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_mem_asym.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

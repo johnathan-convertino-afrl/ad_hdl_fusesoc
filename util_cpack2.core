@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:data_flow:util_cpack:2.0.0
+description: Analog Devices utility pack data.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_pack/util_cpack2/util_cpack2.v
+      - hdl/library/util_pack/util_cpack2/util_cpack2_impl.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:data_flow:util_pack_common:2.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

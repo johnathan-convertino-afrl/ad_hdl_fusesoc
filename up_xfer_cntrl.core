@@ -1,0 +1,24 @@
+CAPI=2:
+
+name: AD:common:up_xfer_cntrl:1.0.0
+description: Analog Devices xfer control.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/up_xfer_cntrl.v
+    file_type: verilogSource
+
+  constr:
+    files:
+      - "tool_vivado  ? (constr/up_xfer_cntrl_constr.tcl)" : { file_type : SDC }
+      - "tool_quartus ? (constr/up_xfer_cntrl_constr.sdc)" : { file_type : sdc }
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]
+

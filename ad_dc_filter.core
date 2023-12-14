@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:ad_dcfilter:1.0.0
+description: Analog Devices dc filter- y(n) = c*x(n) + (1-c)*y(n-1)..  NOT IMPLEMENTED for intel.
+
+filesets:
+  src:
+    files:
+      - "tool_quartus ? (src/intel/ad_dcfilter.v)"  : {file_type: verilogSource}
+      - "tool_vivado  ? (hdl/library/xilinx/common/ad_dcfilter.v)" : {file_type: verilogSource}
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

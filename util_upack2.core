@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:data_flow:util_upack:2.0.0
+description: Analog Devices utility un-pack data.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_pack/util_upack2/util_upack2.v
+      - hdl/library/util_pack/util_upack2/util_upack2_impl.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:data_flow:util_pack_common:2.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

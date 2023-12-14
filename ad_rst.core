@@ -1,0 +1,22 @@
+CAPI=2:
+
+name: AD:common:ad_rst:1.0.0
+description: Analog Devices reset.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_rst.v : { file_type: verilogSource }
+
+  constr:
+    files:
+      - "tool_vivado  ? (constr/ad_rst_constr.tcl)" : { file_type : SDC }
+      - "tool_quartus ? (constr/ad_rst_constr_q.sdc)" : { file_type : SDC }
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]

@@ -1,0 +1,20 @@
+CAPI=2:
+name : AD:repo:hdl:1.0.0
+
+filesets:
+  dep:
+    depend:
+      - AFRL:utility:generators:1.0.0
+
+generate:
+  gen_git:
+    generator: git_pull
+    parameters:
+      repo_url: [https://github.com/analogdevicesinc/hdl.git]
+      repo_dir: [hdl]
+      tag: [2021_R2]
+
+targets:
+  default:
+    filesets: [dep]
+    generate: [gen_git]

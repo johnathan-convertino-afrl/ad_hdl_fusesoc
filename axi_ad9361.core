@@ -1,0 +1,55 @@
+CAPI=2:
+
+name: AD:RF_Transceiver:axi_ad9361:1.0.0
+description: Analog Devices AD9361 IP LVDS/CMOS core with AXI interface.
+
+filesets:
+  src:
+    files:
+      - hdl/library/axi_ad9361/axi_ad9361.v
+      - hdl/library/axi_ad9361/xilinx/axi_ad9361_cmos_if.v
+      - hdl/library/axi_ad9361/xilinx/axi_ad9361_lvds_if.v
+      - hdl/library/axi_ad9361/axi_ad9361_rx.v
+      - hdl/library/axi_ad9361/axi_ad9361_rx_channel.v
+      - hdl/library/axi_ad9361/axi_ad9361_rx_pnmon.v
+      - hdl/library/axi_ad9361/axi_ad9361_tdd.v
+      - hdl/library/axi_ad9361/axi_ad9361_tdd_if.v
+      - hdl/library/axi_ad9361/axi_ad9361_tx.v
+      - hdl/library/axi_ad9361/axi_ad9361_tx_channel.v
+    file_type: verilogSource
+  
+  constr:
+    files:
+      - "tool_quartus ? (constr/axi_ad9361_constr.sdc)" : { file_type: sdc }
+      - "tool_vivado  ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+
+  dep:
+    depend:
+      - AD:common:ad_addsub:1.0.0
+      - AD:common:ad_datafmt:1.0.0
+      - AD:common:ad_dds:1.0.0
+      - AD:common:ad_iqcor:1.0.0
+      - AD:common:ad_pnmon:1.0.0
+      - AD:common:ad_pps_receiver:1.0.0
+      - AD:common:ad_rst:1.0.0
+      - AD:common:ad_tdd_control:1.0.0
+      - AD:common:up_adc_channel:1.0.0
+      - AD:common:up_adc_common:1.0.0
+      - AD:common:up_axi:1.0.0
+      - AD:common:up_clock_mon:1.0.0
+      - AD:common:up_dac_channel:1.0.0
+      - AD:common:up_dac_common:1.0.0
+      - AD:common:up_delay_cntrl:1.0.0
+      - AD:common:up_tdd_cntrl:1.0.0
+      - AD:common:up_xfer_cntrl:1.0.0
+      - AD:common:up_xfer_status:1.0.0
+      - AD:common:ad_data_clk:1.0.0
+      - AD:common:ad_data_in:1.0.0
+      - AD:common:ad_data_out:1.0.0
+      - AD:common:ad_dcfilter:1.0.0
+      - AD:common:ad_mul:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]

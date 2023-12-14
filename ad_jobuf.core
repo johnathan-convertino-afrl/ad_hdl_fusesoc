@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_iobuf:1.0.0
+description: Analog Devices io buffer.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_iobuf.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

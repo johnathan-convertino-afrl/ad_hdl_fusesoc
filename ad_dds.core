@@ -1,0 +1,23 @@
+CAPI=2:
+
+name: AD:common:ad_dds:1.0.0
+description: Analog Devices single channel dds (dual tone).
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_dds.v
+      - hdl/library/common/ad_dds_1.v
+      - hdl/library/common/ad_dds_2.v
+      - hdl/library/common/ad_dds_cordic_pipe.v
+      - hdl/library/common/ad_dds_sine.v
+      - hdl/library/common/ad_dds_sine_cordic.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
