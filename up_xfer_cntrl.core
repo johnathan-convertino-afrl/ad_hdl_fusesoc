@@ -11,8 +11,7 @@ filesets:
 
   constr:
     files:
-      - "tool_vivado  ? (constr/up_xfer_cntrl_constr.tcl)" : { file_type : SDC }
-      - "tool_quartus ? (constr/up_xfer_cntrl_constr.sdc)" : { file_type : sdc }
+      - constr/up_xfer_cntrl_constr.tcl : { file_type : SDC }
 
   dep:
     depend:
