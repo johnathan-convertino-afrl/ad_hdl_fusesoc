@@ -12,7 +12,7 @@ filesets:
   constr:
     files:
       - "tool_vivado  ? (constr/util_wfifo_constr.tcl)" : { file_type: SDC }
-      # - "tool_quartus ? (constr/util_wfifo_constr.sdc)" : { file_type: sdc }
+      - "tool_quartus ? (hdl/library/util_wfifo/util_wfifo_constr.sdc)" : { file_type: SDC }
 
   dep:
     depend:

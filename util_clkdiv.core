@@ -7,7 +7,7 @@ filesets:
   src:
     files:
       - "tool_vivado  ? (hdl/library/xilinx/util_clkdiv/util_clkdiv.v)" : {file_type: verilogSource}
-      - "tool_quartus ? (hdl/library/intel/util_clkdiv/util_clkdiv.v)"  : {file_type: verilogSource}
+      - "tool_quartus ? (src/intel/util_clkdiv.v)" : {file_type: verilogSource}
 
   constr:
     files:

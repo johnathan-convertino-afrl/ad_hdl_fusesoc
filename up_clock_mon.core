@@ -12,7 +12,7 @@ filesets:
   constr:
     files:
       - "tool_vivado  ? (constr/up_clock_mon_constr.tcl)" : { file_type : SDC }
-      - "tool_quartus ? (constr/up_clock_mon_constr_q.sdc)" : { file_type : SDC }
+      - "tool_quartus ? (hdl/library/intel/common/up_clock_mon_constr.sdc)" : { file_type : SDC }
 
   dep:
     depend:

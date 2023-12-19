@@ -20,7 +20,8 @@ filesets:
   
   constr:
     files:
-      - constr/axi_ad9361_constr.tcl : { file_type: SDC }
+      - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
 
   dep:
     depend:

@@ -11,7 +11,8 @@ filesets:
   
   constr:
     files:
-      - constr/util_rfifo_constr.tcl : { file_type: SDC }
+      - "tool_vivado ? (constr/util_rfifo_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (hdl/library/util_rfifo/util_rfifo_constr.sdc)" : { file_type: SDC }
 
   dep:
     depend:

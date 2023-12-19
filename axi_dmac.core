@@ -22,10 +22,12 @@ filesets:
       - hdl/library/axi_dmac/dest_axi_mm.v
       - hdl/library/axi_dmac/dest_axi_stream.v
       - hdl/library/axi_dmac/dest_fifo_inf.v
-      - hdl/library/axi_dmac/inc_id.vh : { is_include_file: true }
+      - hdl/library/axi_dmac/inc_id.vh:
+          is_include_file: true
       - hdl/library/axi_dmac/request_arb.v
       - hdl/library/axi_dmac/request_generator.v
-      - hdl/library/axi_dmac/resp.vh : { is_include_file: true }
+      - hdl/library/axi_dmac/resp.vh:
+          is_include_file: true
       - hdl/library/axi_dmac/response_generator.v
       - hdl/library/axi_dmac/response_handler.v
       - hdl/library/axi_dmac/splitter.v
@@ -36,7 +38,8 @@ filesets:
   
   constr:
     files:
-      - constr/axi_dmac_constr.tcl : { file_type: SDC }
+      - "tool_vivaod ? (constr/axi_dmac_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (hdl/library/axi_dmac/axi_dmac_constr.sdc)" : { file_type: SDC}
 
   dep_com:
     depend:
