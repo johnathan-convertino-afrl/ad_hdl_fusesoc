@@ -38,7 +38,7 @@ filesets:
   
   constr:
     files:
-      - "tool_vivaod ? (constr/axi_dmac_constr.tcl)" : { file_type: SDC }
+      - "tool_vivado ? (constr/axi_dmac_constr.tcl)" : { file_type: SDC }
       - "tool_quartus ? (hdl/library/axi_dmac/axi_dmac_constr.sdc)" : { file_type: SDC}
 
   dep_com:

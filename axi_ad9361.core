@@ -8,7 +8,7 @@ filesets:
     files:
       - hdl/library/axi_ad9361/axi_ad9361.v
       - hdl/library/axi_ad9361/xilinx/axi_ad9361_cmos_if.v
-      - hdl/library/axi_ad9361/xilinx/axi_ad9361_lvds_if.v
+      - src/axi_ad9361_fix/axi_ad9361_lvds_if.v
       - hdl/library/axi_ad9361/axi_ad9361_rx.v
       - hdl/library/axi_ad9361/axi_ad9361_rx_channel.v
       - hdl/library/axi_ad9361/axi_ad9361_rx_pnmon.v
