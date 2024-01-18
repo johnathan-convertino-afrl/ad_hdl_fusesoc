@@ -30,14 +30,15 @@
 //      This will allow to generate bit files and not release the source code,
 //      as long as it attaches to an ADI device.
 //
+//  Arria10 added by Jay Convertino
+//
 // ***************************************************************************
 // ***************************************************************************
 
 `timescale 1ns/100ps
 
 // Divides the input clock to SEL_0_DIV if clk_sel is 0 or SEL_1_DIV if
-// clk_sel is 1. Provides a glitch free output clock
-// IP uses BUFR/BUFGCE_DIV and BUFGMUX_CTRL primitives
+// clk_sel is 1.
 
 module util_clkdiv #(
   parameter SIM_DEVICE = "ARRIA10",
@@ -51,8 +52,8 @@ module util_clkdiv #(
   wire [1:0] concat_clocks;
   wire sel_clk;
 
-  reg d = 0;
-  reg dd = 0;
+  reg d = 1;
+  reg dd = 1;
 
   assign concat_clocks = {dd, d};
 
@@ -70,22 +71,26 @@ module util_clkdiv #(
 
   end else if (SIM_DEVICE == "ARRIA10") begin
 
+    //constant enable D flip flop takes input clock and divideds by two.
     always @(posedge clk) begin
       d <= ~d;
     end
 
+    //same clock, but enable comes from divided flip flop above. Dividing the clock again resulting in a divide by 4 in comparison to the original.
     always @(posedge clk) begin
       if(d) begin
         dd <= ~dd;
       end
     end
 
+    //select clock needed
     twentynm_clkselect clk_sel (
       .clkselect(clk_sel),
       .inclk(concat_clocks),
       .outclk(sel_clk)
     );
 
+    //set new selected clock to a buffer
     twentynm_clkena #(
       .clock_type(CLOCK_TYPE),
       .en_register_mode("always enabled"),
