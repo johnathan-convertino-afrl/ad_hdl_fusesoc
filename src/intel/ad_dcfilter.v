@@ -126,7 +126,7 @@ module ad_dcfilter #(
   //subtract... hmmm
   parallel_add #(
     .msw_subtract("YES"),
-    .pipeline(1),
+    .pipeline(2),
     .representation("SIGNED"),
     .result_alignment("LSB"),
     .shift(0),
