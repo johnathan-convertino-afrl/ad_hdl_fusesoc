@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:ethernet:util_mii_to_rmii:1.0.0
+description: Analog Devices mii to rmii
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_mii_to_rmii/util_mii_to_rmii.v
+      - hdl/library/util_mii_to_rmii/mac_phy_link.v
+      - hdl/library/util_mii_to_rmii/phy_mac_link.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:data_flow:util_cpack_axis:1.0.0
+description: Analog Devices utility pack data.
+
+filesets:
+  src:
+    files:
+      - src/util_cpack2_axis/util_cpack2_axis.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:data_flow:util_cpack:2.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
