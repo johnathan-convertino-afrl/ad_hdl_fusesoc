@@ -184,7 +184,7 @@ module util_cpack2_axis #(
 
   wire packed_fifo_wr_overflow;
   wire packed_fifo_wr_sync;
-  wire packed_fifo_wr_data;
+  wire [2**$clog2(NUM_OF_CHANNELS)*SAMPLE_DATA_WIDTH*SAMPLES_PER_CHANNEL-1:0] packed_fifo_wr_data;
   wire packed_fifo_wr_en;
 
   // convert fifo to axis
