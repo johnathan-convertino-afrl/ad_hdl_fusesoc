@@ -12,7 +12,7 @@ generate:
     parameters:
       repo_url: https://github.com/analogdevicesinc/hdl.git
       repo_dir: hdl
-      tag: 2022_r2
+      tag: 2022_R2
 
 targets:
   default:
