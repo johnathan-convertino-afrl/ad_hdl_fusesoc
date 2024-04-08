@@ -17,6 +17,7 @@ filesets:
 
   dep:
     depend:
+      - AD:jesd204:axi_jesd204_common:1.0.0
       - AD:common:up_axi:1.0.0
       - AD:repo:hdl:1.0.0
 

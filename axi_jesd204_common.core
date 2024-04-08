@@ -1,7 +1,7 @@
 CAPI=2:
 
-name: AD:jesd204:ad_jesd204_common:1.0.0
-description: Analog Devices jesd204 common files
+name: AD:jesd204:axi_jesd204_common:1.0.0
+description: Analog Devices axi jesd204 common files
 
 filesets:
   src:
