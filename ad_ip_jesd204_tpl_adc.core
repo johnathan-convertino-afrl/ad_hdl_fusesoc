@@ -6,12 +6,12 @@ description: Analog Devices TPL ADC jesd204 core
 filesets:
   src:
     files:
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_channel.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_core.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_deframer.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_pnmon.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_regmap.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc_channel.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc_core.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc_deframer.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc_pnmon.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc_regmap.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc/ad_ip_jesd204_tpl_adc.v
     file_type: verilogSource
   
   # constr:

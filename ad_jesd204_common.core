@@ -1,0 +1,25 @@
+CAPI=2:
+
+name: AD:jesd204:ad_jesd204_common:1.0.0
+description: Analog Devices jesd204 common files
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/axi_jesd204_common/jesd204_up_common.v
+      - hdl/library/jesd204/axi_jesd204_common/jesd204_up_sysref.v
+    file_type: verilogSource
+  
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:common:up_clock_mon:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
