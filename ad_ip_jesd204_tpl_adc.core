@@ -11,7 +11,7 @@ filesets:
       - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_deframer.v
       - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_pnmon.v
       - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_regmap.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_adc.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc.v
     file_type: verilogSource
   
   # constr:
@@ -34,6 +34,7 @@ filesets:
       - AD:repo:hdl:1.0.0
       - AD:common:up_tpl_common:1.0.0
       - AD:common:ad_xcvr_rx_if:1.0.0
+      - AD:utility:ext_sync:1.0.0
 
 targets:
   default:
