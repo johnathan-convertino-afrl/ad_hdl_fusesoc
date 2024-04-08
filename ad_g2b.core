@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:ad_g2b:1.0.0
+description: Analog Devices g2b core
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_g2b.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

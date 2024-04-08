@@ -1,0 +1,34 @@
+CAPI=2:
+
+name: AD:utility:dac_fifo:1.0.0
+description: Analog Devices axi dac fifo.
+
+filesets:
+  src:
+    files:
+      - hdl/library/util_dacfifo/util_dacfifo_bypass.v
+      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_wr.v
+      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_rd.v
+      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_address_buffer.v
+      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo.v
+    file_type: verilogSource
+  
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:common:ad_mem:1.0.0
+      - AD:common:ad_mem_asym:1.0.0
+      - AD:common:ad_g2b:1.0.0
+      - AD:common:ad_b2g:1.0.0
+      - AD:common:ad_axis_inf_rx:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+
+
