@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:ad_dds_cordic_pipe:1.0.0
+description: Analog Devices dds cordic pipe
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_dds_cordic_pipe.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

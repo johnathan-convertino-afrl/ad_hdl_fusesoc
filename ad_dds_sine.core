@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:ad_dds_sine:1.0.0
+description: Analog Devices DDS
+
+filesets:
+  src:
+    files:
+      - hdl/library/xilinx/common/ad_dds_sine.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_mul:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: AD:common:ad_dds_sine_cordic:1.0.0
+description: Analog Devices dds sine cordic
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_dds_sine_cordic.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_dds_cordic_pipe:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

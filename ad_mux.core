@@ -1,0 +1,19 @@
+CAPI=2:
+
+name: AD:common:ad_mux:1.0.0
+description: Analog Devices mux
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_mux.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_mux_core:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+

@@ -38,17 +38,9 @@ filesets:
       - AD:common:up_tpl_common:1.0.0
       - AD:common:ad_xcvr_rx_if:1.0.0
       - AD:utility:ext_sync:1.0.0
+      - AD:common:ad_mux:1.0.0
+      - AD:common:ad_dds_2:1.0.0
 
 targets:
   default:
     filesets: [src, dep]
-
-
-
-  "$ad_hdl_dir/library/common/ad_mux.v" \
-  "$ad_hdl_dir/library/common/ad_mux_core.v" \
-  "$ad_hdl_dir/library/common/ad_dds_sine.v" \
-  "$ad_hdl_dir/library/common/ad_dds_cordic_pipe.v" \
-  "$ad_hdl_dir/library/common/ad_dds_sine_cordic.v" \
-  "$ad_hdl_dir/library/common/ad_dds_2.v" \
-  "$ad_hdl_dir/library/common/ad_dds_1.v" \

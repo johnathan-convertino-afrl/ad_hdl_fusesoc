@@ -1,0 +1,22 @@
+CAPI=2:
+
+name: AD:common:ad_dds_1:1.0.0
+description: Analog Devices dds 1
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/ad_dds_1.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:common:ad_dds_sine:1.0.0
+      - AD:common:ad_dds_sine_cordic:1.0.0
+      - AD:common:ad_mul:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
+
