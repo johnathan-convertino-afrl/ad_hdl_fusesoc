@@ -1,0 +1,29 @@
+CAPI=2:
+
+name: AD:jesd204:axi_jesd204_rx:1.0.0
+description: Analog Devices axi jesd204 rx core
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/axi_jesd204_rx/jesd204_up_rx.v
+      - hdl/library/jesd204/axi_jesd204_rx/jesd204_up_rx_lane.v
+      - hdl/library/jesd204/axi_jesd204_rx/jesd204_up_ilas_mem.v
+      - hdl/library/jesd204/axi_jesd204_rx/axi_jesd204_rx.v
+    file_type: verilogSource
+  
+  constr:
+    files:
+      - "tool_vivado  ? (constr/axi_jesd204_rx_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (hdl/library/jesd204/axi_jesd204_rx/axi_jesd204_rx_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:common:up_axi:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep, constr]
+
+  # "axi_jesd204_rx_ooc.ttcl" \
