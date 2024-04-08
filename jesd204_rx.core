@@ -1,0 +1,38 @@
+CAPI=2:
+
+name: AD:jesd204:jesd204_rx:1.0.0
+description: Analog Devices jesd204 rx core
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_lane.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_lane_64b.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_header.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_cgs.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_ctrl.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_ctrl_64b.v
+      - hdl/library/jesd204/jesd204_rx/elastic_buffer.v
+      - hdl/library/jesd204/jesd204_rx/error_monitor.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_ilas_monitor.v
+      - hdl/library/jesd204/jesd204_rx/align_mux.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_lane_latency_monitor.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx_frame_align.v
+      - hdl/library/jesd204/jesd204_rx/jesd204_rx.v
+    file_type: verilogSource
+  
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:jesd204:jesd204_common:1.0.0
+      - AD:data_flow:util_upack:2.0.0
+      - AD:data_flow:util_pack:2.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

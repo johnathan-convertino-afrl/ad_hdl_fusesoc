@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: AD:jesd204:jesd204_tx:1.0.0
+description: Analog Devices jesd204 tx core
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx_lane.v
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx_lane_64b.v
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx_header.v
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx_ctrl.v
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx_gearbox.v
+      - hdl/library/jesd204/jesd204_tx/jesd204_tx.v
+    file_type: verilogSource
+  
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:jesd204:jesd204_common:1.0.0
+      - AD:data_flow:util_upack:2.0.0
+      - AD:data_flow:util_pack:2.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
