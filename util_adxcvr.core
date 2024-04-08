@@ -1,0 +1,27 @@
+CAPI=2:
+
+name: AD:common:util_adxcvr:1.0.0
+description: Analog Devices transcever.
+
+filesets:
+  src:
+    files:
+      - "tool_vivado  ? (hdl/library/xilinx/util_clkdiv/util_adxcvr_xcm.v)" : {file_type: verilogSource}
+      - "tool_vivado  ? (hdl/library/xilinx/util_clkdiv/util_adxcvr_xch.v)" : {file_type: verilogSource}
+      - "tool_vivado  ? (hdl/library/xilinx/util_clkdiv/util_adxcvr.v)" : {file_type: verilogSource}
+      - "tool_quartus ? (src/intel/util_adxcvr_xcm.v)" : {file_type: verilogSource}
+      - "tool_quartus ? (src/intel/util_adxcvr_xch.v)" : {file_type: verilogSource}
+      - "tool_quartus ? (src/intel/util_adxcvr.v)" : {file_type: verilogSource}
+  #
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/util_clkdiv_constr.tcl)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:jesd204:jesd204_common:1.0.0
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

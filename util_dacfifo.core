@@ -1,15 +1,13 @@
 CAPI=2:
 
-name: AD:utility:axi_dac_fifo:1.0.0
-description: Analog Devices axi dac fifo.
+name: AD:utility:dac_fifo:1.0.0
+description: Analog Devices util dac fifo.
 
 filesets:
   src:
     files:
-      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_wr.v
-      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_rd.v
-      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo_address_buffer.v
-      - hdl/library/xilinx/axi_dacfifo/axi_dacfifo.v
+      - hdl/library/util_dacfifo/util_dacfifo.v
+      - hdl/library/util_dacfifo/util_dacfifo_bypass.v
     file_type: verilogSource
   
   # constr:
@@ -19,16 +17,12 @@ filesets:
 
   dep:
     depend:
-      - AD:utility:dac_fifo:1.0.0
       - AD:common:ad_mem:1.0.0
       - AD:common:ad_mem_asym:1.0.0
       - AD:common:ad_g2b:1.0.0
       - AD:common:ad_b2g:1.0.0
-      - AD:common:ad_axis_inf_rx:1.0.0
       - AD:repo:hdl:1.0.0
 
 targets:
   default:
     filesets: [src, dep]
-
-
