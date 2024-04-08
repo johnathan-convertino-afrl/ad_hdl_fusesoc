@@ -1,0 +1,40 @@
+CAPI=2:
+
+name: AD:jesd204:ad_ip_jesd204_tpl_adc:1.0.0
+description: Analog Devices TPL ADC jesd204 core
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_channel.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_core.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_deframer.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_pnmon.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_regmap.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_adc_adc.v
+    file_type: verilogSource
+  
+  # constr:
+  #   files:
+  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+
+  dep:
+    depend:
+      - AD:common:ad_perfect_shuffle:1.0.0
+      - AD:common:ad_datafmt:1.0.0
+      - AD:common:ad_pnmon:1.0.0
+      - AD:common:ad_rst:1.0.0
+      - AD:common:up_adc_channel:1.0.0
+      - AD:common:up_adc_common:1.0.0
+      - AD:common:up_axi:1.0.0
+      - AD:common:up_clock_mon:1.0.0
+      - AD:common:up_xfer_cntrl:1.0.0
+      - AD:common:up_xfer_status:1.0.0
+      - AD:repo:hdl:1.0.0
+      - AD:common:up_tpl_common:1.0.0
+      - AD:common:ad_xcvr_rx_if:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

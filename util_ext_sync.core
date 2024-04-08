@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:utility:ext_sync:1.0.0
+description: Analog Devices external sync.
+
+filesets:
+  src:
+    files:
+      - hdl/library/common/util_ext_sync.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]

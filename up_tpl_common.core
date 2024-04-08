@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: AD:common:up_tpl_common:1.0.0
+description: Analog Devices tpl common
+
+filesets:
+  src:
+    files:
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_common/up_tpl_common.v
+    file_type: verilogSource
+
+  dep:
+    depend:
+      - AD:repo:hdl:1.0.0
+
+targets:
+  default:
+    filesets: [src, dep]
