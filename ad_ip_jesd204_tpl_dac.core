@@ -1,19 +1,19 @@
 CAPI=2:
 
-name: AD:jesd204:ad_ip_jesd204_tpl_adc:1.0.0
-description: Analog Devices TPL ADC jesd204 core
+name: AD:jesd204:ad_ip_jesd204_tpl_dac:1.0.0
+description: Analog Devices TPL DAC jesd204 core
 
 filesets:
   src:
     files:
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc_channel.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc_core.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc_deframer.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc_pnmon.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc_regmap.v
-      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_adc.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_channel.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_core.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_framer.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_pn.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_regmap.v
+      - hdl/library/jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac.v
     file_type: verilogSource
-  
+
   # constr:
   #   files:
   #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
@@ -21,12 +21,15 @@ filesets:
 
   dep:
     depend:
+      - AD:common:ad_iqcor:1.0.0
+      - AD:common:ad_dds:1.0.0
+      - AD:common:ad_mul:1.0.0
       - AD:common:ad_perfect_shuffle:1.0.0
       - AD:common:ad_datafmt:1.0.0
       - AD:common:ad_pnmon:1.0.0
       - AD:common:ad_rst:1.0.0
-      - AD:common:up_adc_channel:1.0.0
-      - AD:common:up_adc_common:1.0.0
+      - AD:common:up_dac_common:1.0.0
+      - AD:common:up_dac_channel:1.0.0
       - AD:common:up_axi:1.0.0
       - AD:common:up_clock_mon:1.0.0
       - AD:common:up_xfer_cntrl:1.0.0
@@ -35,6 +38,8 @@ filesets:
       - AD:common:up_tpl_common:1.0.0
       - AD:common:ad_xcvr_rx_if:1.0.0
       - AD:utility:ext_sync:1.0.0
+      - AD:common:ad_mux:1.0.0
+      - AD:common:ad_dds_2:1.0.0
 
 targets:
   default:
