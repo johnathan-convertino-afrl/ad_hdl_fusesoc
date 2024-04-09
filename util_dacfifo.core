@@ -10,10 +10,10 @@ filesets:
       - hdl/library/util_dacfifo/util_dacfifo_bypass.v
     file_type: verilogSource
   
-  # constr:
-  #   files:
-  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
-  #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
+  constr:
+    files:
+      - "tool_vivado ? (constr/util_dacfifo_constr.tcl)" : { file_type: SDC }
+      - "tool_quartus ? (hdl/library/util_dacfifo/util_dacfifo_constr.sdc)" : {file_type: SDC}
 
   dep:
     depend:
@@ -25,4 +25,4 @@ filesets:
 
 targets:
   default:
-    filesets: [src, dep]
+    filesets: [src, dep, constr]

@@ -12,10 +12,10 @@ filesets:
       - "tool_quartus ? (src/intel/util_adxcvr_xcm.v)" : {file_type: verilogSource}
       - "tool_quartus ? (src/intel/util_adxcvr_xch.v)" : {file_type: verilogSource}
       - "tool_quartus ? (src/intel/util_adxcvr.v)" : {file_type: verilogSource}
-  #
-  # constr:
-  #   files:
-  #     - "tool_vivado ? (constr/util_clkdiv_constr.tcl)" : {file_type: SDC}
+
+  constr:
+    files:
+      - "tool_vivado ? (constr/util_adxcvr_constr.tcl)" : {file_type: SDC}
 
   dep:
     depend:
@@ -24,4 +24,4 @@ filesets:
 
 targets:
   default:
-    filesets: [src, dep]
+    filesets: [src, dep, constr]
