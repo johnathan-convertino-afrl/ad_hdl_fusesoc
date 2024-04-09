@@ -12,9 +12,9 @@ filesets:
       - hdl/library/xilinx/axi_dacfifo/axi_dacfifo.v
     file_type: verilogSource
   
-  # constr:
-  #   files:
-  #     - "tool_vivado ? (constr/axi_ad9361_constr.tcl)" : { file_type: SDC }
+  constr:
+    files:
+      - "tool_vivado ? (constr/axi_dacfifo_constr.tcl)" : { file_type: SDC }
   #     - "tool_quartus ? (hdl/library/axi_ad9361/axi_ad9361_constr.sdc)" : {file_type: SDC}
 
   dep:
@@ -29,6 +29,6 @@ filesets:
 
 targets:
   default:
-    filesets: [src, dep]
+    filesets: [src, dep, constr]
 
 

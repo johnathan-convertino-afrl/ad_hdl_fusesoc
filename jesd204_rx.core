@@ -35,4 +35,4 @@ filesets:
 
 targets:
   default:
-    filesets: [src, dep]
+    filesets: [src, dep, constr]
