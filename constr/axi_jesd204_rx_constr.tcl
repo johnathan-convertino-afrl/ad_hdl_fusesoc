@@ -65,7 +65,7 @@ foreach instance [get_cells -hier -filter {ref_name==axi_jesd204_rx || orig_ref_
     [get_cells -quiet -hier -filter "parent=~$instance* && name =~up_core_reset_ext_synchronizer_vector_reg*"]
 
   set_false_path \
-    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~ i_up_rx/i_cdc_status/in_toggle_d1_reg/C] \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_rx/i_cdc_status/in_toggle_d1_reg/C] \
     -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_rx/i_cdc_status/i_sync_out/cdc_sync_stage1_reg[0]/D]
 
   set_false_path \

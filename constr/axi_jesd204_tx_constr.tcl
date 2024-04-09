@@ -41,101 +41,109 @@
 # “The design and implementation of the JESD204 HDL Core used in this project
 # is copyright © 2016-2017, Analog Devices, Inc.”
 #
+# TCL script to create axi_jesd204_tx constraints for every instantiated core.
+# created by Jay Convertino
 
-set axi_clk [get_clocks -of_objects [get_ports s_axi_aclk]]
-set core_clk [get_clocks -of_objects [get_ports core_clk]]
-set device_clk [get_clocks -of_objects [get_ports device_clk]]
+foreach instance [get_cells -hier -filter {ref_name==axi_jesd204_tx || orig_ref_name==axi_jesd204_tx}] {
+  puts "INFO: Constraining $instance"
 
-set_property ASYNC_REG TRUE \
-  [get_cells -hier {*cdc_sync_stage1_reg*}] \
-  [get_cells -hier {*cdc_sync_stage2_reg*}]
+  set_property KEEP_HIERARCHY TRUE [get_cells $instance]
 
-# Used for synchronizing resets with asynchronous de-assert
-set_property ASYNC_REG TRUE \
-  [get_cells -hier {up_reset_vector_reg*}] \
-  [get_cells -hier {core_reset_vector_reg*}] \
-  [get_cells -hier {up_reset_synchronizer_vector_reg*}] \
-  [get_cells -hier {up_core_reset_ext_synchronizer_vector_reg*}]
+  set axi_clk [get_clocks -of_objects [get_nets -hier -filter "parent_cell=~$instance*" *s_axi_aclk]]
+  set core_clk [get_clocks -of_objects [get_nets -hier -filter "parent_cell=~$instance*" *core_clk]]
+  set device_clk [get_clocks -of_objects [get_nets -hier -filter "parent_cell=~$instance*" *device_clk]]
 
-set_false_path \
-  -from [get_pins {i_up_tx/i_cdc_status/out_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_tx/i_cdc_status/i_sync_in/cdc_sync_stage1_reg[0]/D}]
+  set_property ASYNC_REG TRUE \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~ *cdc_sync_stage1_reg*"] \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~ *cdc_sync_stage2_reg*"]
 
-set_false_path \
-  -from [get_pins {i_up_tx/i_cdc_status/in_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_tx/i_cdc_status/i_sync_out/cdc_sync_stage1_reg[0]/D}]
+  # Used for synchronizing resets with asynchronous de-assert
+  set_property ASYNC_REG TRUE \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~up_reset_vector_reg*"] \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~core_reset_vector_reg*"] \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~up_reset_synchronizer_vector_reg*"] \
+    [get_cells -quiet -hier -filter "parent=~$instance* && name =~up_core_reset_ext_synchronizer_vector_reg*"]
 
-set_false_path \
-  -from [get_pins {i_up_sysref/i_cdc_sysref_event/in_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_sysref/i_cdc_sysref_event/i_sync_out/cdc_sync_stage1_reg[0]/D}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/out_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/i_sync_in/cdc_sync_stage1_reg[0]/D]
 
-set_false_path \
-  -from [get_pins {i_up_sysref/i_cdc_sysref_event/out_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_sysref/i_cdc_sysref_event/i_sync_in/cdc_sync_stage1_reg[0]/D}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/in_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/i_sync_out/cdc_sync_stage1_reg[0]/D]
 
-set_false_path \
-  -from [get_pins {i_up_sysref/i_cdc_sysref_event/cdc_hold_reg*/C}] \
-  -to [get_pins {i_up_sysref/i_cdc_sysref_event/out_event_reg*/D}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/in_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/i_sync_out/cdc_sync_stage1_reg[0]/D]
 
-# Don't place them too far appart
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_tx/i_cdc_status/cdc_hold_reg[*]/C}] \
-  -to [get_pins {i_up_tx/i_cdc_status/out_data_reg[*]/D}] \
-  [get_property -min PERIOD $axi_clk]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/out_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/i_sync_in/cdc_sync_stage1_reg[0]/D]
 
-set_false_path \
-  -from $core_clk \
-  -to [get_pins {i_up_tx/i_cdc_sync/cdc_sync_stage1_reg[*]/D}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/cdc_hold_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/i_cdc_sysref_event/out_event_reg*/D]
 
-set_false_path \
-  -from [get_pins {i_up_common/up_reset_core_reg/C}] \
-  -to [get_pins {i_up_common/core_reset_vector_reg[*]/PRE}]
+  # Don't place them too far appart
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/cdc_hold_reg[*]/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_status/out_data_reg[*]/D] \
+    [get_property -min PERIOD $axi_clk]
 
-set_false_path \
-  -from [get_pins {i_up_common/up_reset_core_reg/C}] \
-  -to [get_pins {i_up_common/device_reset_vector_reg[*]/PRE}]
+  set_false_path \
+    -from $core_clk \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_sync/cdc_sync_stage1_reg[*]/D]
 
-set_false_path \
-  -from [get_pins {i_up_common/core_reset_vector_reg[0]/C}] \
-  -to [get_pins {i_up_common/up_reset_synchronizer_vector_reg[*]/PRE}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_reset_core_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/core_reset_vector_reg[*]/PRE]
 
-set_false_path \
-  -to [get_pins {i_up_common/up_core_reset_ext_synchronizer_vector_reg[*]/PRE}]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_reset_core_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/device_reset_vector_reg[*]/PRE]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_common/up_cfg_*_reg*/C}] \
-  -to [get_pins {i_up_common/core_cfg_*_reg*/D}] \
-  [get_property -min PERIOD $core_clk]
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/core_reset_vector_reg[0]/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_reset_synchronizer_vector_reg[*]/PRE]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_common/up_cfg_*_reg*/C}] \
-  -to [get_pins {i_up_common/device_cfg_*_reg*/D}] \
-  [get_property -min PERIOD $device_clk]
+  set_false_path \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_core_reset_ext_synchronizer_vector_reg[*]/PRE]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_tx/up_cfg_ilas_data_*_reg*/C}] \
-  -to [get_cells {i_up_tx/*core_ilas_config_data_reg*}] \
-  [get_property -min PERIOD $core_clk]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_cfg_*_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/core_cfg_*_reg*/D] \
+    [get_property -min PERIOD $core_clk]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_tx/up_cfg_*_reg*/C}] \
-  -to [get_pins {i_up_common/core_extra_cfg_reg[*]/D}] \
-  [get_property -min PERIOD $core_clk]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/up_cfg_*_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/device_cfg_*_reg*/D] \
+    [get_property -min PERIOD $device_clk]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_tx/up_cfg_*_reg*/C}] \
-  -to [get_pins {i_up_common/device_extra_cfg_reg[*]/D}] \
-  [get_property -min PERIOD $device_clk]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/up_cfg_ilas_data_*_reg*/C] \
+    -to [get_cells {i_up_tx/*core_ilas_config_data_reg*}] \
+    [get_property -min PERIOD $core_clk]
 
-set_max_delay -datapath_only \
-  -from [get_pins {i_up_sysref/up_cfg_*_reg*/C}] \
-  -to [get_pins {i_up_common/device_extra_cfg_reg[*]/D}] \
-  [get_property -min PERIOD $device_clk]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/up_cfg_*_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/core_extra_cfg_reg[*]/D] \
+    [get_property -min PERIOD $core_clk]
 
-set_false_path \
-  -from [get_pins {i_up_tx/i_cdc_manual_sync_request/out_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_tx/i_cdc_manual_sync_request/i_sync_in/cdc_sync_stage1_reg[0]/D}]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/up_cfg_*_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/device_extra_cfg_reg[*]/D] \
+    [get_property -min PERIOD $device_clk]
 
-set_false_path \
-  -from [get_pins {i_up_tx/i_cdc_manual_sync_request/in_toggle_d1_reg/C}] \
-  -to [get_pins {i_up_tx/i_cdc_manual_sync_request/i_sync_out/cdc_sync_stage1_reg[0]/D}]
+  set_max_delay -datapath_only \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_sysref/up_cfg_*_reg*/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_common/device_extra_cfg_reg[*]/D] \
+    [get_property -min PERIOD $device_clk]
+
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_manual_sync_request/out_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_manual_sync_request/i_sync_in/cdc_sync_stage1_reg[0]/D]
+
+  set_false_path \
+    -from [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_manual_sync_request/in_toggle_d1_reg/C] \
+    -to [get_pins -of [get_cells -hier -filter parent=~$instance*] -filter name=~i_up_tx/i_cdc_manual_sync_request/i_sync_out/cdc_sync_stage1_reg[0]/D]
+}
