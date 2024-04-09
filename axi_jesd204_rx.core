@@ -19,6 +19,9 @@ filesets:
 
   dep:
     depend:
+      - AD:sync:util_sync_data:1.0.0
+      - AD:sync:util_sync_event:1.0.0
+      - AD:sync:util_sync_bits:1.0.0
       - AD:jesd204:axi_jesd204_common:1.0.0
       - AD:common:up_axi:1.0.0
       - AD:repo:hdl:1.0.0
