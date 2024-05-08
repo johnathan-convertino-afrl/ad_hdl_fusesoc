@@ -55,6 +55,7 @@ module tb_axis #(
   reg                     r_fifo_wr_en;
   reg                     r_eof;
   reg                     rr_eof;
+  reg                     r_toggle;
   
   wire                      tb_fifo_wr_en;
   wire                      tb_dut_clk;
@@ -90,16 +91,25 @@ module tb_axis #(
       rr_fifo_wr_data <= 0;
       r_fifo_wr_data <= 0;
       bytes_read = 1;
+      r_toggle = 0;
     end else begin
-      rr_eof <= r_eof & ~tb_fifo_overflow;
+      rr_eof <= r_eof & ~tb_fifo_overflow & tb_dut_valid;
 
       rr_fifo_wr_data <= r_fifo_wr_data;
 
-      if(tb_fifo_overflow == 1'b0)
+      r_toggle <= ~r_toggle;
+
+      if(~tb_fifo_overflow & r_toggle)
       begin
         bytes_read = $read_binary_file(IN_FILE_NAME, r_fifo_wr_data);
 
         r_fifo_wr_en <= 1'b1;
+      end
+
+      if(~tb_fifo_overflow & ~r_toggle)
+      begin
+        r_fifo_wr_data <= 0;
+        r_fifo_wr_en <= 1'b0;
       end
 
       r_eof <= 1'b0;

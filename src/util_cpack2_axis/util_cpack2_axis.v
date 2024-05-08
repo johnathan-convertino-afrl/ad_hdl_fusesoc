@@ -176,9 +176,24 @@ module util_cpack2_axis #(
   input  m_axis_tready,
   output m_axis_tuser
 );
+  localparam st_run   = 2'h1;
+  localparam st_hold  = 2'h3;
+  localparam st_err   = 2'h0;
+
+  reg [1:0] r_state = st_err;
+
   reg r_sync;
   reg r_wr_en;
   reg r_axis_tready;
+
+  reg [2**$clog2(NUM_OF_CHANNELS)*SAMPLE_DATA_WIDTH*SAMPLES_PER_CHANNEL-1:0] r_axis_tdata;
+  reg r_axis_tvalid;
+  reg r_axis_tuser;
+
+  reg [2**$clog2(NUM_OF_CHANNELS)*SAMPLE_DATA_WIDTH*SAMPLES_PER_CHANNEL-1:0] rr_axis_tdata;
+  reg rr_axis_tvalid;
+  reg rr_axis_tuser;
+
 
   wire packed_fifo_wr_overflow;
   wire packed_fifo_wr_sync;
@@ -186,25 +201,73 @@ module util_cpack2_axis #(
   wire packed_fifo_wr_en;
 
   // convert fifo to axis
-  assign m_axis_tuser = packed_fifo_wr_sync || r_sync;
-  assign m_axis_tdata = packed_fifo_wr_data;
-  assign m_axis_tvalid = packed_fifo_wr_en || r_wr_en;
+  assign m_axis_tuser = r_axis_tvalid;
+  assign m_axis_tdata = r_axis_tdata;
+  assign m_axis_tvalid = r_axis_tuser;
   assign packed_fifo_wr_overflow = ~m_axis_tready;
 
   always @(posedge clk)
   begin
     if(reset)
     begin
-      r_axis_tready <= 1'b0;
-      r_sync <= 1'b0;
-      r_wr_en <= 1'b0;
+      r_axis_tdata  <= 0;
+      r_axis_tvalid <= 1'b0;
+      r_axis_tuser  <= 1'b0;
+      rr_axis_tdata  <= 0;
+      rr_axis_tvalid <= 1'b0;
+      rr_axis_tuser  <= 1'b0;
+      r_state <= st_err;
     end else begin
-      r_axis_tready <= m_axis_tready;
+      case(r_state)
+        st_run: begin
+          r_state <= st_run;
 
-      if(r_axis_tready || m_axis_tready) begin
-        r_sync <= packed_fifo_wr_sync;
-        r_wr_en <= packed_fifo_wr_en;
-      end
+          if(m_axis_tready)
+          begin
+            r_axis_tdata    <= 0;
+            r_axis_tvalid   <= 1'b0;
+            r_axis_tuser    <= 1'b0;
+          end
+
+          if(packed_fifo_wr_en)
+          begin
+            r_axis_tdata    <= packed_fifo_wr_data;
+            r_axis_tvalid   <= packed_fifo_wr_en;
+            r_axis_tuser    <= packed_fifo_wr_sync;
+          end
+
+          if(~m_axis_tready & packed_fifo_wr_en)
+          begin
+            r_state <= st_hold;
+
+            r_axis_tdata  <= r_axis_tdata;
+            r_axis_tvalid <= r_axis_tvalid;
+            r_axis_tuser  <= r_axis_tuser;
+
+            rr_axis_tdata   <= packed_fifo_wr_data;
+            rr_axis_tvalid  <= packed_fifo_wr_en;
+            rr_axis_tuser   <= packed_fifo_wr_sync;
+          end
+        end
+        st_hold: begin
+          r_state <= st_hold;
+
+          r_axis_tdata  <= r_axis_tdata;
+          r_axis_tvalid <= r_axis_tvalid;
+          r_axis_tuser  <= r_axis_tuser;
+
+          if(m_axis_tready)
+          begin
+            r_state <= st_run;
+
+            r_axis_tdata  <= rr_axis_tdata;
+            r_axis_tvalid <= rr_axis_tvalid;
+            r_axis_tuser  <= rr_axis_tuser;
+          end
+        end
+        default:
+          r_state <= st_run;
+      endcase
     end
   end
 
