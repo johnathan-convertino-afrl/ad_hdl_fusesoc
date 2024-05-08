@@ -1,35 +1,30 @@
 // ***************************************************************************
 // ***************************************************************************
-// Copyright (C) 2018-2023 Analog Devices, Inc. All rights reserved.
+// @FILE    util_cpack2_axis.v
+// @AUTHOR  JAY CONVERTINO
+// @DATE    2024.04.01
+// @BRIEF   Convert Analog Devices cpack2 from fifo to axis interface.
 //
-// In this HDL repository, there are many different and unique modules, consisting
-// of various HDL (Verilog or VHDL) components. The individual modules are
-// developed independently, and may be accompanied by separate and unique license
-// terms.
+// @LICENSE MIT
+//  Copyright 2024 Jay Convertino
 //
-// The user should read each of these license terms, and understand the
-// freedoms and responsibilities that he or she has by using this source/core.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to
+//  deal in the Software without restriction, including without limitation the
+//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-// This core is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-// A PARTICULAR PURPOSE.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Redistribution and use of source or resulting binaries, with or without modification
-// of this file, are permitted under one of the following two license terms:
-//
-//   1. The GNU General Public License version 2 as published by the
-//      Free Software Foundation, which can be found in the top level directory
-//      of this repository (LICENSE_GPL2), and also online at:
-//      <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-//
-// OR
-//
-//   2. An ADI specific BSD license, which can be found in the top level directory
-//      of this repository (LICENSE_ADIBSD), and also on-line at:
-//      https://github.com/analogdevicesinc/hdl/blob/master/LICENSE_ADIBSD
-//      This will allow to generate bit files and not release the source code,
-//      as long as it attaches to an ADI device.
-//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//  IN THE SOFTWARE.
 // ***************************************************************************
 // ***************************************************************************
 
@@ -181,6 +176,9 @@ module util_cpack2_axis #(
   input  m_axis_tready,
   output m_axis_tuser
 );
+  reg r_sync;
+  reg r_wr_en;
+  reg r_axis_tready;
 
   wire packed_fifo_wr_overflow;
   wire packed_fifo_wr_sync;
@@ -188,10 +186,27 @@ module util_cpack2_axis #(
   wire packed_fifo_wr_en;
 
   // convert fifo to axis
-  assign m_axis_tuser = packed_fifo_wr_sync;
+  assign m_axis_tuser = packed_fifo_wr_sync || r_sync;
   assign m_axis_tdata = packed_fifo_wr_data;
-  assign m_axis_tvalid = packed_fifo_wr_en;
+  assign m_axis_tvalid = packed_fifo_wr_en || r_wr_en;
   assign packed_fifo_wr_overflow = ~m_axis_tready;
+
+  always @(posedge clk)
+  begin
+    if(reset)
+    begin
+      r_axis_tready <= 1'b0;
+      r_sync <= 1'b0;
+      r_wr_en <= 1'b0;
+    end else begin
+      r_axis_tready <= m_axis_tready;
+
+      if(r_axis_tready || m_axis_tready) begin
+        r_sync <= packed_fifo_wr_sync;
+        r_wr_en <= packed_fifo_wr_en;
+      end
+    end
+  end
 
    util_cpack2 #(
     .NUM_OF_CHANNELS(NUM_OF_CHANNELS),
@@ -268,7 +283,7 @@ module util_cpack2_axis #(
     .enable_63(enable_63),
 
     .fifo_wr_en(fifo_wr_en),
-    .fifo_wr_overflow(fifo_dout_ovf),
+    .fifo_wr_overflow(fifo_wr_overflow),
 
     .fifo_wr_data_0(fifo_wr_data_0),
     .fifo_wr_data_1(fifo_wr_data_1),
