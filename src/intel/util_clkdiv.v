@@ -99,7 +99,7 @@ module util_clkdiv #(
       .ena(1'b1),
       .enaout(),
       .inclk(sel_clk),
-      .outclk(clk)
+      .outclk(clk_out)
     );
 
   end endgenerate
