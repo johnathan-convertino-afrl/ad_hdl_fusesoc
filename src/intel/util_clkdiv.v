@@ -49,13 +49,13 @@ module util_clkdiv #(
   output  clk_out
 );
 
-  wire [1:0] concat_clocks;
+  wire [3:0] concat_clocks;
   wire sel_clk;
 
   reg d = 1;
   reg dd = 1;
 
-  assign concat_clocks = {dd, d};
+  // assign concat_clocks = {d, dd, 1'b0, clk};
 
   generate if (SIM_DEVICE == "CYCLONE5") begin
     cyclonev_clkena #(
@@ -71,7 +71,7 @@ module util_clkdiv #(
 
   end else if (SIM_DEVICE == "ARRIA10") begin
 
-    //constant enable D flip flop takes input clock and divideds by two.
+    //constant enable D flip flop takes input clock and divideds by 2.
     always @(posedge clk) begin
       d <= ~d;
     end
@@ -83,19 +83,23 @@ module util_clkdiv #(
       end
     end
 
+    // clk is not a pll clock (INCLK[0]), without changing the core both xilinx and intel I don't think this will work
     //select clock needed
-    twentynm_clkselect clk_sel (
-      .clkselect(clk_sel),
-      .inclk(concat_clocks),
-      .outclk(sel_clk)
-    );
+    // twentynm_clkselect clk_select (
+    //   .clkselect({clk_sel, 1'b1}),
+    //   .inclk(concat_clocks),
+    //   .outclk(sel_clk)
+    // );
+
+    // really bad way to do this with a mux
+    assign sel_clk = (clk_sel ? d : dd);
 
     //set new selected clock to a buffer
     twentynm_clkena #(
       .clock_type(CLOCK_TYPE),
       .en_register_mode("always enabled"),
       .lpm_type("twentynm_clkena")
-    ) clk_buf (
+    ) clk_buffer (
       .ena(1'b1),
       .enaout(),
       .inclk(sel_clk),

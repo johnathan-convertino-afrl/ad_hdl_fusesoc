@@ -11,7 +11,8 @@ filesets:
 
   constr:
     files:
-      - "tool_vivado ? (constr/util_clkdiv_constr.tcl)" : {file_type: SDC}
+      - "tool_vivado  ? (constr/util_clkdiv_constr.tcl)" : {file_type: SDC}
+      # - "tool_quartus ? (constr/util_clkdiv_constr.sdc)" : {file_type: SDC}
 
   dep:
     depend:
