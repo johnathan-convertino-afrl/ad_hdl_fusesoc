@@ -72,12 +72,12 @@ module util_clkdiv #(
   end else if (SIM_DEVICE == "ARRIA10") begin
 
     //constant enable D flip flop takes input clock and divideds by 2.
-    always @(posedge clk) begin
+    always @(negedge clk) begin
       d <= ~d;
     end
 
     //same clock, but enable comes from divided flip flop above. Dividing the clock again resulting in a divide by 4 in comparison to the original.
-    always @(posedge clk) begin
+    always @(negedge clk) begin
       if(d) begin
         dd <= ~dd;
       end
