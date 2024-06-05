@@ -613,7 +613,7 @@ module axi_ad9361_lvds_if #(
     if(FPGA_TECHNOLOGY >= 100) begin
       ad_data_clk #(
         .FPGA_TECHNOLOGY(FPGA_TECHNOLOGY),
-        .GLOBAL_CLOCK(0))
+        .GLOBAL_CLOCK(1))
       i_clk (
         .rst (1'd0),
         .locked (),
