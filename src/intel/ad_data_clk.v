@@ -60,33 +60,54 @@ module ad_data_clk #(
 
   generate
   if (FPGA_TECHNOLOGY == CYCLONE5) begin
-    //don't have one to test 
-    assign clk = 0;
+    if(GLOBAL_CLOCK == 1) begin
+      cyclonev_clkena #(
+        .clock_type ("GCLK"),
+        .ena_register_mode ("always enabled"),
+        .lpm_type ("cyclonev_clkena")
+      ) clock_buf (
+        .ena(1'b1),
+        .enaout(),
+        .inclk(clk_in_p),
+        .outclk(clk)
+      );
+    end else begin
+      cyclonev_clkena #(
+        .clock_type ("LCLK"),
+        .ena_register_mode ("always enabled"),
+        .lpm_type ("cyclonev_clkena")
+      ) clock_buf (
+        .ena(1'b1),
+        .enaout(),
+        .inclk(clk_in_p),
+        .outclk(clk)
+      );
+    end
   end
   endgenerate
   
   generate
   if (FPGA_TECHNOLOGY == ARRIA10) begin
     if(GLOBAL_CLOCK == 1) begin
-    twentynm_clkena #(
-      .clock_type("Global Clock"),
-      .en_register_mode("always enabled"),
-      .lpm_type("twentynm_clkena"))
-    clk_buf ( 
-      .ena(1'b1),
-      .enaout(),
-      .inclk(clk_in_p),
-      .outclk(clk));
+      twentynm_clkena #(
+        .clock_type("Global Clock"),
+        .en_register_mode("always enabled"),
+        .lpm_type("twentynm_clkena"))
+      clk_buf ( 
+        .ena(1'b1),
+        .enaout(),
+        .inclk(clk_in_p),
+        .outclk(clk));
     end else begin
-    twentynm_clkena #(
-      .clock_type("Regional Clock"),
-      .en_register_mode("always enabled"),
-      .lpm_type("twentynm_clkena"))
-    clk_buf ( 
-      .ena(1'b1),
-      .enaout(),
-      .inclk(clk_in_p),
-      .outclk(clk));
+      twentynm_clkena #(
+        .clock_type("Regional Clock"),
+        .en_register_mode("always enabled"),
+        .lpm_type("twentynm_clkena"))
+      clk_buf ( 
+        .ena(1'b1),
+        .enaout(),
+        .inclk(clk_in_p),
+        .outclk(clk));
     end
   end
   endgenerate

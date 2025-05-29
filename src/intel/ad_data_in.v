@@ -67,50 +67,92 @@ module ad_data_in #(
   input               delay_rst,
   output              delay_locked);
 
-  // internal parameters
-  
   // local parameters
 
   localparam CYCLONE5 = 101;
   localparam ARRIA10  = 103;
+  
+  wire s_ibuf_o;
 
+  wire s_rx_data_p;
+  wire s_rx_data_n;
+  
+  reg rp_rx_data_p;
+  reg rp_rx_data_n;
+  
+  reg rn_rx_data_p;
+  reg rn_rx_data_n;
+  
+  reg [4:0] r_up_dwdata = 'd0;
+  
   // instantiations
-
+  
+  assign delay_locked = 1'b1;
+  
+  assign up_drdata = r_up_dwdata;
+  
+  assign rx_data_p = rp_rx_data_p;
+  assign rx_data_n = rp_rx_data_n;
+  
+  always @(negedge rx_clk) begin
+    rn_rx_data_p <= s_rx_data_p;
+    rn_rx_data_n <= s_rx_data_n;
+  end;
+  
+  always @(posedge rx_clk) begin
+    rp_rx_data_p <= rn_rx_data_p;
+    rp_rx_data_n <= rn_rx_data_n;
+  end;
+  
+  always @(posedge up_clk) begin
+    if(up_dld == 1'b1) begin
+      r_up_dwdata <= up_dwdata;
+    end
+  end
+  
   generate
   if (FPGA_TECHNOLOGY == CYCLONE5) begin
-    //don't have one to test .. altddio_in
-    assign rx_data_p = 0;
-    assign rx_data_n = 0;
-    assign up_drdata = 0;
-    assign delay_locked = 0;
+    if (SINGLE_ENDED == 1) begin
+      alt_inbuf #(
+        .enable_buf_hold("off")
+      ) obuf (
+        .i(rx_data_in_p),
+        .o(s_ibuf_o)
+      );
+    end else begin
+      alt_inbuf_diff #(
+        .enable_bus_hold("off")
+      ) obuf (
+        .i(rx_data_in_p),
+        .ibar(rx_data_in_n),
+        .obar(s_ibuf_o)
+      );
+    end
+  
+    altddio_in #(
+      .extend_oe_disable ("OFF"),
+      .intended_device_family ("Cyclone V"),
+      .invert_output ("OFF"),
+      .lpm_hint ("UNUSED"),
+      .lpm_type ("altddio_in"),
+      .oe_reg ("UNREGISTERED"),
+      .power_up_high ("OFF"),
+      .width (1))
+    iddr (
+      .datain(s_ibuf_o),
+      .inclock(rx_clk),
+      .dataout_h(s_rx_data_p),
+      .dataout_l(s_rx_data_n),
+      .aclr(1'b0),
+      .aset(1'b0),
+      .inclocken(1'b1),
+      .sclr(1'b0),
+      .sset(1'b0));
   end
   endgenerate
   
   generate
   if (FPGA_TECHNOLOGY == ARRIA10) begin
-    wire s_ibuf_o;
-
-    wire s_rx_data_p;
-    wire s_rx_data_n;
-    
-    reg rp_rx_data_p;
-    reg rp_rx_data_n;
-    
-    reg rn_rx_data_p;
-    reg rn_rx_data_n;
-    
-    reg [4:0] r_up_dwdata = 'd0;
-    
-    assign delay_locked = 1'b1;
-    
-    assign up_drdata = r_up_dwdata;
-    
-    always @(posedge up_clk) begin
-      if(up_dld == 1'b1) begin
-        r_up_dwdata <= up_dwdata;
-      end
-    end
-      
     if (SINGLE_ENDED == 1) begin
       twentynm_io_ibuf #(
         .differential_mode("false"),
@@ -139,19 +181,6 @@ module ad_data_in #(
       .clk (rx_clk),
       .regouthi(s_rx_data_p),
       .regoutlo(s_rx_data_n));
-      
-    always @(negedge rx_clk) begin
-      rn_rx_data_p <= s_rx_data_p;
-      rn_rx_data_n <= s_rx_data_n;
-    end;
-    
-    always @(posedge rx_clk) begin
-      rp_rx_data_p <= rn_rx_data_p;
-      rp_rx_data_n <= rn_rx_data_n;
-    end;
-    
-    assign rx_data_p = rp_rx_data_p;
-    assign rx_data_n = rp_rx_data_n;
   end
   endgenerate
 endmodule

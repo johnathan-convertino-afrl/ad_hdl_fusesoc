@@ -65,62 +65,91 @@ module ad_data_out #(
   input               delay_rst,
   output              delay_locked);
 
-  // internal parameters
-  
   // local parameters
 
   localparam CYCLONE5 = 101;
   localparam ARRIA10  = 103;
   
-  // defaults
+  wire s_oddr_o;
+
+  reg rp_tx_data_p;
+  reg rp_tx_data_n;
   
-  assign locked = 1'b1;
+//     reg rn_tx_data_p;
+//     reg rn_tx_data_n;
+  
+  reg r_delay_locked;
+  reg [4:0] r_up_dwdata = 'd0;
 
   // instantiations
-
+    
+  assign locked = 1'b1;
+  
+  assign delay_locked = 1'b1;
+  
+  assign up_drdata = r_up_dwdata;
+  
+  always @(posedge up_clk) begin
+    if(up_dld == 1'b1) begin
+      r_up_dwdata <= up_dwdata;
+    end
+  end
+  
+//     always @(negedge tx_clk) begin
+//       rn_tx_data_p <= tx_data_p;
+//       rn_tx_data_n <= tx_data_n;
+//     end;
+  
+  always @(posedge tx_clk) begin
+    rp_tx_data_p <= tx_data_p;
+    rp_tx_data_n <= tx_data_n;
+  end;
+  
   generate
   if (FPGA_TECHNOLOGY == CYCLONE5) begin
-    //don't have one to test .. altddio_out
-    assign rx_data_p = 0;
-    assign rx_data_n = 0;
-    assign up_drdata = 0;
-    assign delay_locked = 0;
+    altddio_out #(
+      .extend_oe_disable ("OFF"),
+      .intended_device_family ("Cyclone V"),
+      .invert_output ("OFF"),
+      .lpm_hint ("UNUSED"),
+      .lpm_type ("altddio_out"),
+      .oe_reg ("UNREGISTERED"),
+      .power_up_high ("OFF"),
+      .width (1))
+    oddr (
+      .datain_h (rp_tx_data_p),
+      .datain_l (rp_tx_data_n),
+      .outclock (tx_clk),
+      .dataout (s_oddr_o),
+      .aclr (1'b0),
+      .aset (1'b0),
+      .oe (1'b1),
+      .oe_out (),
+      .outclocken (1'b1),
+      .sclr (1'b0),
+      .sset (1'b0));
+
+    if (SINGLE_ENDED == 1) begin
+      alt_outbuf #(
+        .enable_buf_hold("off")
+      ) obuf (
+        .i(s_oddr_o),
+        .o(tx_data_out_p)
+      );
+    end else begin
+      alt_outbuf_diff #(
+        .enable_bus_hold("off")
+      ) obuf (
+        .i(s_oddr_o),
+        .o(tx_data_out_p),
+        .obar(tx_data_out_n)
+      );
+    end
   end
   endgenerate
   
   generate
   if (FPGA_TECHNOLOGY == ARRIA10) begin
-    wire s_oddr_o;
-
-    reg rp_tx_data_p;
-    reg rp_tx_data_n;
-    
-//     reg rn_tx_data_p;
-//     reg rn_tx_data_n;
-    
-    reg r_delay_locked;
-    reg [4:0] r_up_dwdata = 'd0;
-    
-    assign delay_locked = 1'b1;
-    
-    assign up_drdata = r_up_dwdata;
-    
-    always @(posedge up_clk) begin
-      if(up_dld == 1'b1) begin
-        r_up_dwdata <= up_dwdata;
-      end
-    end
-    
-//     always @(negedge tx_clk) begin
-//       rn_tx_data_p <= tx_data_p;
-//       rn_tx_data_n <= tx_data_n;
-//     end;
-    
-    always @(posedge tx_clk) begin
-      rp_tx_data_p <= tx_data_p;
-      rp_tx_data_n <= tx_data_n;
-    end;
-    
     twentynm_ddio_out #(
       .half_rate_mode("false"),
       .async_mode("none"),
