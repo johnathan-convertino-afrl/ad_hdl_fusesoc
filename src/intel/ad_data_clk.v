@@ -62,7 +62,7 @@ module ad_data_clk #(
   if (FPGA_TECHNOLOGY == CYCLONE5) begin
     if(GLOBAL_CLOCK == 1) begin
       cyclonev_clkena #(
-        .clock_type ("GCLK"),
+        .clock_type ("GLOBAL CLOCK"),
         .ena_register_mode ("always enabled"),
         .lpm_type ("cyclonev_clkena")
       ) clock_buf (
@@ -73,7 +73,7 @@ module ad_data_clk #(
       );
     end else begin
       cyclonev_clkena #(
-        .clock_type ("LCLK"),
+        .clock_type ("REGIONAL CLOCK"),
         .ena_register_mode ("always enabled"),
         .lpm_type ("cyclonev_clkena")
       ) clock_buf (
