@@ -131,7 +131,7 @@ module ad_data_out #(
 
     if (SINGLE_ENDED == 1) begin
       alt_outbuf #(
-        .enable_buf_hold("off")
+        .enable_bus_hold("off")
       ) obuf (
         .i(s_oddr_o),
         .o(tx_data_out_p)
