@@ -6,7 +6,7 @@ description: Analog Devices AD9361 IP LVDS/CMOS core with AXI interface.
 filesets:
   src:
     files:
-      - hdl/library/axi_ad9361/axi_ad9361.v
+      - src/axi_ad9361_fix/axi_ad9361.v
       - hdl/library/axi_ad9361/xilinx/axi_ad9361_cmos_if.v
       - src/axi_ad9361_fix/axi_ad9361_lvds_if.v
       - hdl/library/axi_ad9361/axi_ad9361_rx.v
