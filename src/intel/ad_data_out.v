@@ -103,7 +103,7 @@ module ad_data_out #(
   always @(posedge tx_clk) begin
     rp_tx_data_p <= tx_data_p;
     rp_tx_data_n <= tx_data_n;
-  end;
+  end
   
   generate
   if (FPGA_TECHNOLOGY == CYCLONE5) begin

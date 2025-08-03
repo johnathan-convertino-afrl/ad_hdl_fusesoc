@@ -97,12 +97,12 @@ module ad_data_in #(
   always @(negedge rx_clk) begin
     rn_rx_data_p <= s_rx_data_p;
     rn_rx_data_n <= s_rx_data_n;
-  end;
+  end
   
   always @(posedge rx_clk) begin
     rp_rx_data_p <= rn_rx_data_p;
     rp_rx_data_n <= rn_rx_data_n;
-  end;
+  end
   
   always @(posedge up_clk) begin
     if(up_dld == 1'b1) begin
