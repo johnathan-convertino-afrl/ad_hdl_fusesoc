@@ -125,7 +125,7 @@ module ad_data_in #(
       ) obuf (
         .i(rx_data_in_p),
         .ibar(rx_data_in_n),
-        .obar(s_ibuf_o)
+        .o(s_ibuf_o)
       );
     end
   
